@@ -16,6 +16,7 @@
                 }}</router-link>
             </li>
         </ul>
+        <a href="/logout" class="absolute bottom-0 mb-4 underline">Выйти</a>
     </aside>
 </template>
 

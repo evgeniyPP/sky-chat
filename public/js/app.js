@@ -1931,6 +1931,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1986,10 +1987,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2010,6 +2007,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2075,6 +2077,23 @@ __webpack_require__.r(__webpack_exports__);
         _this2.newMessage = "";
 
         _this2.fetchData();
+      });
+    },
+    deleteGroup: function deleteGroup() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/delete-group", {
+        group_id: this.$route.params.id
+      }).then(function (res) {
+        var result = res.data.result;
+
+        if (!result) {
+          alert("Вы не создатель этой группы!");
+        } else {
+          _this3.$router.push("/");
+
+          location.reload();
+        }
       });
     }
   },
@@ -3245,6 +3264,15 @@ var render = function() {
         )
       }),
       0
+    ),
+    _vm._v(" "),
+    _c(
+      "a",
+      {
+        staticClass: "absolute bottom-0 mb-4 underline",
+        attrs: { href: "/logout" }
+      },
+      [_vm._v("Выйти")]
     )
   ])
 }
@@ -3300,6 +3328,14 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("section", { staticClass: "relative p-4" }, [
+    _c("div", { staticClass: "text-right" }, [
+      _c(
+        "button",
+        { staticClass: "mb-4 text-red-500", on: { click: _vm.deleteGroup } },
+        [_vm._v("\n            Удалить группу\n        ")]
+      )
+    ]),
+    _vm._v(" "),
     _vm.messages && _vm.messages.length
       ? _c(
           "div",

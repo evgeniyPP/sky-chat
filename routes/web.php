@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-// Route::get('/home', 'HomeController@index')->name('home');
-
 Auth::routes();
+
+Route::get('/logout', function () {
+    auth()->logout();
+    return redirect('/login');
+})->middleware('auth');
 
 Route::get('/api/groups', function () {
     return App\Group::all();
@@ -49,6 +49,21 @@ Route::post('/api/new-group', function (Request $request) {
         'name' => $request->name,
         'user_id' => auth()->user()->id,
     ]);
+})->middleware('auth');
+
+Route::post('/api/delete-group', function (Request $request) {
+    $group = Group::find($request->group_id);
+
+    if ($group->user_id != auth()->user()->id) {
+        return [
+            'result' => false
+        ];
+    }
+
+    $group->delete();
+    return [
+        'result' => true
+    ];
 })->middleware('auth');
 
 Route::view('/{any}', 'root')->where('any', '.*')->middleware('auth');

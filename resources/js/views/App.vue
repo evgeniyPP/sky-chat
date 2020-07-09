@@ -1,8 +1,4 @@
 <template>
-    <!-- <p>
-            <router-link :to="{ name: 'home' }">Home</router-link> |
-            <router-link :to="{ name: 'hello' }">Hello World!</router-link>
-        </p> -->
     <div class="container min-h-screen pt-4 root">
         <Groups />
         <router-view></router-view>

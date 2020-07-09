@@ -1,5 +1,10 @@
 <template>
     <section class="relative p-4">
+        <div class="text-right">
+            <button v-on:click="deleteGroup" class="mb-4 text-red-500">
+                Удалить группу
+            </button>
+        </div>
         <div v-if="messages && messages.length" class="space-y-4">
             <div
                 v-for="message of messages"
@@ -62,6 +67,22 @@ export default {
                 .then(() => {
                     this.newMessage = "";
                     this.fetchData();
+                });
+        },
+        deleteGroup() {
+            axios
+                .post("/api/delete-group", {
+                    group_id: this.$route.params.id
+                })
+                .then(res => {
+                    const result = res.data.result;
+
+                    if (!result) {
+                        alert("Вы не создатель этой группы!");
+                    } else {
+                        this.$router.push("/");
+                        location.reload();
+                    }
                 });
         }
     },
