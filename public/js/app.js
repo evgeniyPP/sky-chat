@@ -1930,6 +1930,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1946,6 +1947,21 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/groups").then(function (res) {
         _this.groups = res.data;
+      });
+    },
+    addGroup: function addGroup() {
+      var _this2 = this;
+
+      var name = prompt("Введите имя группы");
+
+      if (!name) {
+        return;
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/new-group", {
+        name: name
+      }).then(function () {
+        _this2.fetchData();
       });
     }
   }
@@ -2011,11 +2027,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      messages: []
+      messages: [],
+      newMessage: ""
     };
   },
   created: function created() {
@@ -2027,6 +2063,18 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/groups/" + this.$route.params.id).then(function (res) {
         _this.messages = res.data;
+      });
+    },
+    addMessage: function addMessage() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/message", {
+        text: this.newMessage,
+        group_id: this.$route.params.id
+      }).then(function () {
+        _this2.newMessage = "";
+
+        _this2.fetchData();
       });
     }
   },
@@ -3168,7 +3216,18 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("aside", { staticClass: "flex flex-col items-center border-r-2" }, [
-    _vm._m(0),
+    _c("span", { staticClass: "inline-flex rounded-md shadow-sm" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "inline-flex items-center px-4 py-2 text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50",
+          attrs: { type: "button" },
+          on: { click: _vm.addGroup }
+        },
+        [_vm._v("\n            Добавить группу\n        ")]
+      )
+    ]),
     _vm._v(" "),
     _c(
       "ul",
@@ -3189,24 +3248,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "inline-flex rounded-md shadow-sm" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "inline-flex items-center px-4 py-2 text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50",
-          attrs: { type: "button" }
-        },
-        [_vm._v("\n            Добавить группу\n        ")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -3257,35 +3299,82 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "section",
-    { staticClass: "p-4 space-y-4" },
-    _vm._l(_vm.messages, function(message) {
-      return _c(
-        "div",
-        {
-          key: message.id,
-          staticClass: "overflow-hidden bg-white rounded-lg shadow"
-        },
-        [
-          _c("div", { staticClass: "px-2 py-3 sm:p-4" }, [
-            _vm._v("\n            " + _vm._s(message.text) + "\n        ")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "px-2 py-2 border-t border-gray-200 sm:px-3" },
-            [
-              _vm._v(
-                "\n            Автор: " + _vm._s(message.user) + "\n        "
-              )
-            ]
-          )
-        ]
-      )
-    }),
-    0
-  )
+  return _c("section", { staticClass: "relative p-4" }, [
+    _vm.messages && _vm.messages.length
+      ? _c(
+          "div",
+          { staticClass: "space-y-4" },
+          _vm._l(_vm.messages, function(message) {
+            return _c(
+              "div",
+              {
+                key: message.id,
+                staticClass: "overflow-hidden bg-white rounded-lg shadow"
+              },
+              [
+                _c("div", { staticClass: "px-6 py-3" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(message.text) +
+                      "\n            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "px-6 py-2 border-t border-gray-200" },
+                  [
+                    _vm._v(
+                      "\n                Автор: " +
+                        _vm._s(message.user) +
+                        "\n            "
+                    )
+                  ]
+                )
+              ]
+            )
+          }),
+          0
+        )
+      : _c("p", { staticClass: "text-center" }, [_vm._v("Сообщений нет")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "absolute bottom-0 w-full mb-4" }, [
+      _c("div", { staticClass: "flex mt-1 rounded-md shadow-sm" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.newMessage,
+              expression: "newMessage"
+            }
+          ],
+          staticClass:
+            "block w-full px-4 transition duration-150 ease-in-out rounded-none form-input rounded-l-md sm:text-sm sm:leading-5",
+          attrs: { type: "text", placeholder: "Написать сообщение" },
+          domProps: { value: _vm.newMessage },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.newMessage = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "inline-flex items-center px-4 py-2 -ml-px text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out border border-gray-300 rounded-r-md bg-gray-50 hover:text-gray-500 hover:bg-white focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700",
+            on: { click: _vm.addMessage }
+          },
+          [_vm._v("\n                Отправить\n            ")]
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
