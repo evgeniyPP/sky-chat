@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Groups from "../components/Groups.vue";
+import Groups from "./Groups.vue";
 
 export default {
     components: {
