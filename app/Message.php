@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Group extends Model
+class Message extends Model
 {
     protected $guarded = [];
 
@@ -13,8 +13,8 @@ class Group extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function messages()
+    public function group()
     {
-        return $this->hasMany('App\Message');
+        return $this->belongsTo('App\Group');
     }
 }

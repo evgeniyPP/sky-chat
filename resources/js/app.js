@@ -41,6 +41,7 @@ Vue.use(VueRouter);
 
 import App from "./views/App";
 import Home from "./views/Home";
+import Group from "./views/Group";
 
 const router = new VueRouter({
     mode: "history",
@@ -49,6 +50,11 @@ const router = new VueRouter({
             path: "/",
             name: "home",
             component: Home
+        },
+        {
+            path: "/group/:id",
+            name: "group",
+            component: Group
         }
     ]
 });

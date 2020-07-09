@@ -9,26 +9,33 @@
             </button>
         </span>
         <ul class="mt-4 space-y-2">
-            <li v-for="group of groups" :key="group.name">
-                <a href="#">{{ group.name }}</a>
+            <li v-for="group of groups" :key="group.id">
+                <router-link :to="'/group/' + group.id">{{
+                    group.name
+                }}</router-link>
             </li>
         </ul>
     </aside>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     data() {
         return {
-            groups: [
-                {
-                    name: "Группа 1"
-                },
-                {
-                    name: "Чат город Москва"
-                }
-            ]
+            groups: []
         };
+    },
+    created() {
+        this.fetchData();
+    },
+    methods: {
+        fetchData() {
+            axios.get("/api/groups").then(res => {
+                this.groups = res.data;
+            });
+        }
     }
 };
 </script>

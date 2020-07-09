@@ -1,3 +1,3 @@
 <template>
-    <p class="text-center">Выберите чат слева</p>
+    <p class="text-center">Выберите группу слева</p>
 </template>

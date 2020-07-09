@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,18 @@ use Illuminate\Support\Facades\Route;
 // });
 // Route::get('/home', 'HomeController@index')->name('home');
 
-// Auth::routes();
+Auth::routes();
 
-Route::get('/{any}', 'VueController@index')->where('any', '.*');
+Route::get('/api/groups', function () {
+    return App\Group::all();
+})->middleware('auth');
+
+Route::get('/api/groups/{group}', function ($group) {
+    $messages = App\Group::find($group)->messages;
+    return App\Group::find($group)->messages->map(function ($message) {
+        $message['user'] = App\User::find($message->user_id)->name;
+        return $message;
+    });
+})->middleware('auth');
+
+Route::view('/{any}', 'root')->where('any', '.*')->middleware('auth');
