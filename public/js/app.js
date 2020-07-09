@@ -2059,28 +2059,35 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.fetchData();
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    setInterval(function () {
+      _this.fetchData();
+    }, 5000);
+  },
   methods: {
     fetchData: function fetchData() {
-      var _this = this;
+      var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/groups/" + this.$route.params.id).then(function (res) {
-        _this.messages = res.data;
+        _this2.messages = res.data;
       });
     },
     addMessage: function addMessage() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/message", {
         text: this.newMessage,
         group_id: this.$route.params.id
       }).then(function () {
-        _this2.newMessage = "";
+        _this3.newMessage = "";
 
-        _this2.fetchData();
+        _this3.fetchData();
       });
     },
     deleteGroup: function deleteGroup() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/delete-group", {
         group_id: this.$route.params.id
@@ -2090,7 +2097,7 @@ __webpack_require__.r(__webpack_exports__);
         if (!result) {
           alert("Вы не создатель этой группы!");
         } else {
-          _this3.$router.push("/");
+          _this4.$router.push("/");
 
           location.reload();
         }

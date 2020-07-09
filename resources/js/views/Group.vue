@@ -52,6 +52,11 @@ export default {
     created() {
         this.fetchData();
     },
+    mounted() {
+        setInterval(() => {
+            this.fetchData();
+        }, 5000);
+    },
     methods: {
         fetchData() {
             axios.get("/api/groups/" + this.$route.params.id).then(res => {
